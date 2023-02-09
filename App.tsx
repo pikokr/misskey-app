@@ -1,11 +1,7 @@
 import React from 'react'
-import { SafeAreaView } from 'react-native'
 import { useThemeData } from './src/utils/theme'
-import styled, { ThemeProvider } from 'styled-components/native'
-
-const Test = styled.Text`
-  color: ${props => props.theme.renote};
-`
+import { ThemeProvider } from 'styled-components/native'
+import { LoginPage } from './src/views/login/LoginPage'
 
 function App(): JSX.Element {
   // const isDarkMode = useColorScheme() === 'dark'
@@ -13,9 +9,7 @@ function App(): JSX.Element {
 
   return (
     <ThemeProvider theme={theme.props}>
-      <SafeAreaView>
-        <Test>test</Test>
-      </SafeAreaView>
+      <LoginPage />
     </ThemeProvider>
   )
 }
