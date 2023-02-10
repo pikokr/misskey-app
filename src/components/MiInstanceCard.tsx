@@ -8,8 +8,9 @@ import {
   HTMLContentModel,
   HTMLElementModel,
 } from '@native-html/transient-render-engine'
-import { ActivityIndicator } from 'react-native'
+import { ActivityIndicator, Linking } from 'react-native'
 import { Alert, AlertText } from './Alert'
+import uuid from 'react-native-uuid'
 
 const Container = styled.View`
   background-color: ${({ theme }) => theme.panel};
@@ -43,6 +44,41 @@ const customElements: HTMLElementModelRecord = {
   }),
 }
 
+const permissions = [
+  'read:account',
+  'write:account',
+  'read:blocks',
+  'write:blocks',
+  'read:drive',
+  'write:drive',
+  'read:favorites',
+  'write:favorites',
+  'read:following',
+  'write:following',
+  'read:messaging',
+  'write:messaging',
+  'read:mutes',
+  'write:mutes',
+  'write:notes',
+  'read:notifications',
+  'write:notifications',
+  'read:reactions',
+  'write:reactions',
+  'write:votes',
+  'read:pages',
+  'write:pages',
+  'write:page-likes',
+  'read:page-likes',
+  'read:user-groups',
+  'write:user-groups',
+  'read:channels',
+  'write:channels',
+  'read:gallery',
+  'write:gallery',
+  'read:gallery-likes',
+  'write:gallery-likes',
+]
+
 export const MiInstanceCard: React.FC<{ instance: InstanceMeta }> = ({
   instance,
 }) => {
@@ -55,6 +91,35 @@ export const MiInstanceCard: React.FC<{ instance: InstanceMeta }> = ({
     [instance.description],
   )
 
+  const baseStyle = React.useMemo(() => ({ color: theme.fg }), [theme.fg])
+
+  const [error, setError] = React.useState<string | null>(null)
+  const [loggingIn, setLoggingIn] = React.useState(false)
+
+  const login = React.useCallback(async () => {
+    try {
+      setLoggingIn(true)
+      setError(null)
+
+      const id = uuid.v4()
+
+      const url =
+        instance.uri +
+        `/miauth/${id}?` +
+        new URLSearchParams({
+          name: 'Misskey App',
+          permission: permissions.join(','),
+        }).toString()
+
+      await Linking.openURL(url)
+    } catch (e) {
+      console.log(e)
+      setError('login.errors.cannotOpenBrowser')
+    } finally {
+      setLoggingIn(false)
+    }
+  }, [instance])
+
   return (
     <Container
       onLayout={e => {
@@ -65,7 +130,7 @@ export const MiInstanceCard: React.FC<{ instance: InstanceMeta }> = ({
         {instance.description ? (
           containerWidth ? (
             <RenderHtml
-              baseStyle={{ color: theme.fg }}
+              baseStyle={baseStyle}
               contentWidth={containerWidth}
               customHTMLElementModels={customElements}
               source={description}
@@ -79,13 +144,24 @@ export const MiInstanceCard: React.FC<{ instance: InstanceMeta }> = ({
       </SpaceTop>
       <SpaceTop>
         {instance.features?.miauth ? (
-          <MiButton text={t('login.loginToInstance')} />
+          <MiButton
+            loading={loggingIn}
+            onPress={login}
+            text={t('login.loginToInstance')}
+          />
         ) : (
           <Alert severity="error">
             <AlertText>{t('login.errors.noMiAuth')}</AlertText>
           </Alert>
         )}
       </SpaceTop>
+      {error && (
+        <SpaceTop>
+          <Alert severity="error">
+            <AlertText>{t(error as any)}</AlertText>
+          </Alert>
+        </SpaceTop>
+      )}
     </Container>
   )
 }
