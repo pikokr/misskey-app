@@ -5,6 +5,7 @@ import { ActivityIndicator } from 'react-native'
 import styled, { useTheme } from 'styled-components/native'
 import { currentUrlState, LoginUrlState } from '../../utils/url'
 import Toast from 'react-native-toast-message'
+import { accountStore, saveAccounts } from '../../utils/accounts'
 
 const Components = {
   Background: styled.SafeAreaView`
@@ -60,13 +61,33 @@ export const LoginCallbackPage: React.FC<{ state: LoginUrlState }> = ({
         return
       }
 
+      if (accountStore.get()[data.user.id + '@' + host]) {
+        Toast.show({
+          type: 'error',
+          text1: t('login.errors.alreadyExists'),
+        })
+        currentUrlState.set(null)
+        return
+      }
+
       Toast.show({
         type: 'success',
         text1: t('login.loggedIn'),
         text2: `@${data.user.username}@${host}`,
       })
 
-      console.log(data.token)
+      accountStore.set({
+        ...accountStore.get(),
+        [data.user.id + '@' + host]: {
+          host,
+          id: data.user.id,
+          token: data.token,
+          username: data.user.username,
+        },
+      })
+
+      await saveAccounts()
+
       currentUrlState.set(null)
     })()
   }, [state, t])

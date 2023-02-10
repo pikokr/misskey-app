@@ -6,7 +6,8 @@
       "noDescription": "이 인스턴스에 대한 설명이 없습니다.",
       "noMiAuth": "이 인스턴스에서는 miauth를 사용할 수 없습니다.",
       "cannotOpenBrowser": "지원되는 브라우저를 찾지 못했습니다.",
-      "loginFailed": "로그인하지 못했습니다."
+      "loginFailed": "로그인하지 못했습니다.",
+      "alreadyExists": "이 계정은 이미 추가되어 있습니다."
     },
     "searchInstance": "인스턴스 찾기",
     "loginToInstance": "이 인스턴스에 로그인하기",
