@@ -60,7 +60,6 @@ export const MiInstanceCard: React.FC<{ instance: InstanceMeta }> = ({
         setContainerWidth(e.nativeEvent.layout.width)
       }}>
       <Title>{instance.name}</Title>
-      {/* <Description>{}</Description> */}
       <SpaceTop>
         {instance.description ? (
           containerWidth ? (
