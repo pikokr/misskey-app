@@ -101,14 +101,18 @@ export const MiInstanceCard: React.FC<{ instance: InstanceMeta }> = ({
       setLoggingIn(true)
       setError(null)
 
-      const id = uuid.v4()
+      const session = uuid.v4()
 
       const url =
         instance.uri +
-        `/miauth/${id}?` +
+        `/miauth/${session}?` +
         new URLSearchParams({
           name: 'Misskey App',
           permission: permissions.join(','),
+          callback: `pikokr://misskey/login?${new URLSearchParams({
+            host: instance.uri,
+            session: session as string,
+          })}`,
         }).toString()
 
       await Linking.openURL(url)

@@ -8,6 +8,7 @@
       "cannotOpenBrowser": "지원되는 브라우저를 찾지 못했습니다."
     },
     "searchInstance": "인스턴스 찾기",
-    "loginToInstance": "이 인스턴스에 로그인하기"
+    "loginToInstance": "이 인스턴스에 로그인하기",
+    "loggingIn": "로그인하는 중..."
   }
 }
