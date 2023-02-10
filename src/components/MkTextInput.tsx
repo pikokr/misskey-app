@@ -45,7 +45,7 @@ const Container = styled.View`
   width: 100%;
 `
 
-export const MiTextInput: React.FC<{
+export const MkTextInput: React.FC<{
   label?: string
   onChange?: (v: string) => void
   value?: string

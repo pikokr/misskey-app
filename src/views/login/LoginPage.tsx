@@ -3,9 +3,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import styled, { ThemeProvider } from 'styled-components/native'
 import { Alert, AlertText } from '../../components/Alert'
-import { MiButton } from '../../components/MiButton'
-import { MiInstanceCard } from '../../components/MiInstanceCard'
-import { MiTextInput } from '../../components/MiTextInput'
+import { MkButton } from '../../components/MkButton'
+import { MkInstanceCard } from '../../components/MkInstanceCard'
+import { MkTextInput } from '../../components/MkTextInput'
 import { InstanceMeta } from '../../types/meta'
 import { MiTheme } from '../../utils/theme'
 import json5 from 'json5'
@@ -108,7 +108,7 @@ export const LoginPage: React.FC = () => {
   const content = (
     <Components.Background>
       <Components.Container>
-        <MiTextInput
+        <MkTextInput
           keyboardType="url"
           prefix="https://"
           label={t('login.instanceAddress')}
@@ -118,7 +118,7 @@ export const LoginPage: React.FC = () => {
           onEndEditing={searchInstance}
         />
         <Components.TopSpacer>
-          <MiButton
+          <MkButton
             fullWidth
             text={t('login.searchInstance')}
             onPress={searchInstance}
@@ -134,7 +134,7 @@ export const LoginPage: React.FC = () => {
         )}
         {hostInfo && (
           <Components.TopSpacer>
-            <MiInstanceCard instance={hostInfo} />
+            <MkInstanceCard instance={hostInfo} />
           </Components.TopSpacer>
         )}
       </Components.Container>

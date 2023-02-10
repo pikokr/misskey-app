@@ -26,7 +26,7 @@ const ButtonText = styled.Text`
   font-size: 16px;
 `
 
-export const MiButton: React.FC<{
+export const MkButton: React.FC<{
   fullWidth?: boolean
   text: string
   onPress?: () => void

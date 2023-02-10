@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import styled, { useTheme } from 'styled-components/native'
 import { InstanceMeta } from '../types/meta'
-import { MiButton } from './MiButton'
+import { MkButton } from './MkButton'
 import RenderHtml, { HTMLElementModelRecord } from 'react-native-render-html'
 import {
   HTMLContentModel,
@@ -79,7 +79,7 @@ const permissions = [
   'write:gallery-likes',
 ]
 
-export const MiInstanceCard: React.FC<{ instance: InstanceMeta }> = ({
+export const MkInstanceCard: React.FC<{ instance: InstanceMeta }> = ({
   instance,
 }) => {
   const { t } = useTranslation()
@@ -148,7 +148,7 @@ export const MiInstanceCard: React.FC<{ instance: InstanceMeta }> = ({
       </SpaceTop>
       <SpaceTop>
         {instance.features?.miauth ? (
-          <MiButton
+          <MkButton
             loading={loggingIn}
             onPress={login}
             text={t('login.loginToInstance')}
