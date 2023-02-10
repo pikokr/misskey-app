@@ -16,14 +16,12 @@ const Components = {
     background-color: ${({ theme }) => theme.bg};
     height: 100%;
   `,
-  Container: styled.View`
+  Container: styled.ScrollView`
     padding: 48px;
     width: 100%;
     height: 100%;
 
     flex: 1;
-    justify-content: center;
-    align-items: center;
   `,
   TopSpacer: styled.View`
     margin-top: 12px;
