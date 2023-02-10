@@ -1,5 +1,7 @@
 import { atom } from 'nanostores'
 import * as Keychain from 'react-native-keychain'
+import { useStore } from '@nanostores/react'
+import React from 'react'
 
 export interface Account {
   host: string
@@ -32,6 +34,14 @@ export const loadAccounts = async () => {
   }
 
   accountStore.set(result)
+}
+
+export const useSelectedAccount = () => {
+  const accounts = useStore(accountStore)
+
+  return React.useMemo(() => {
+    return Object.values(accounts)[0]
+  }, [accounts])
 }
 
 export const addAccount = async (

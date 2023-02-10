@@ -4,12 +4,12 @@ import { IconAlertCircle } from 'tabler-icons-react-native'
 
 export type AlertSeverity = 'error'
 
-const colors: Record<AlertSeverity, string> = {
+export const alertColors: Record<AlertSeverity, string> = {
   error: '#ff4747',
 }
 
 const Container = styled.View<{ severity: AlertSeverity }>`
-  background-color: ${({ severity }) => colors[severity]};
+  background-color: ${({ severity }) => alertColors[severity]};
   padding: 12px;
   border-radius: 6px;
 

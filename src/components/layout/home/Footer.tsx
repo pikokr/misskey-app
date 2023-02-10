@@ -1,14 +1,21 @@
 import React from 'react'
 import styled, { useTheme } from 'styled-components/native'
 import {
+  IconAlertTriangle,
   IconHome,
   IconMenu2,
   IconNotification,
   IconPencil,
   TablerIcon,
 } from 'tabler-icons-react-native'
-import { TouchableNativeFeedback } from 'react-native'
+import { ActivityIndicator, Text, TouchableNativeFeedback } from 'react-native'
 import { useLocation, useNavigate } from 'react-router-native'
+import useSWR from 'swr'
+import { Account, useSelectedAccount } from '../../../utils/accounts'
+import axios from 'axios'
+import { alertColors } from '../../Alert'
+import { MkAvatar } from '../../MkAvatar'
+import { User } from '../../../types/user'
 
 const Components = {
   Container: styled.View`
@@ -50,6 +57,39 @@ const NavItem: React.FC<{
   )
 }
 
+const fetcher = (acc: Account) =>
+  axios
+    .post<User>(`https://${acc.host}/api/users/show`, {
+      username: acc.username,
+    })
+    .then(x => x.data)
+
+const AccountNavItem: React.FC = () => {
+  const navigate = useNavigate()
+  const theme = useTheme()
+  const account = useSelectedAccount()
+
+  const { data, isLoading, error } = useSWR<User>(account, { fetcher })
+
+  return (
+    <Components.ItemContainer>
+      <Components.ItemTouchable onPress={() => navigate('/')}>
+        <Components.ItemContent>
+          {isLoading ? (
+            <ActivityIndicator color={theme.fg} />
+          ) : error ? (
+            <IconAlertTriangle color={alertColors.error} />
+          ) : data ? (
+            <Text>
+              <MkAvatar src={data.avatarUrl} />
+            </Text>
+          ) : null}
+        </Components.ItemContent>
+      </Components.ItemTouchable>
+    </Components.ItemContainer>
+  )
+}
+
 const NavItemLink: React.FC<{ icon: TablerIcon; to: string }> = ({
   icon,
   to,
@@ -70,6 +110,7 @@ export const HomeBottomNavigation: React.FC = () => {
       />
       <NavItemLink icon={IconHome} to="/" />
       <NavItemLink icon={IconNotification} to="/notifications" />
+      <AccountNavItem />
     </Components.Container>
   )
 }
