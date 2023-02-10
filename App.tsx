@@ -6,6 +6,7 @@ import { Linking } from 'react-native'
 import { currentUrlState, handleLink } from './src/utils/url'
 import { useStore } from '@nanostores/react'
 import { LoginCallbackPage } from './src/views/login/LoginCallbackPage'
+import Toast from 'react-native-toast-message'
 
 Linking.getInitialURL().then(url => {
   if (!url) {
@@ -28,9 +29,12 @@ function App(): JSX.Element {
   const urlState = useStore(currentUrlState)
 
   return (
-    <ThemeProvider theme={theme.props}>
-      {urlState ? <LoginCallbackPage state={urlState} /> : <LoginPage />}
-    </ThemeProvider>
+    <>
+      <ThemeProvider theme={theme.props}>
+        {urlState ? <LoginCallbackPage state={urlState} /> : <LoginPage />}
+      </ThemeProvider>
+      <Toast />
+    </>
   )
 }
 

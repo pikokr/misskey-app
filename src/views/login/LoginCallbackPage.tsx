@@ -3,7 +3,8 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator } from 'react-native'
 import styled, { useTheme } from 'styled-components/native'
-import { LoginUrlState } from '../../utils/url'
+import { currentUrlState, LoginUrlState } from '../../utils/url'
+import Toast from 'react-native-toast-message'
 
 const Components = {
   Background: styled.SafeAreaView`
@@ -33,17 +34,42 @@ export const LoginCallbackPage: React.FC<{ state: LoginUrlState }> = ({
 }) => {
   const theme = useTheme()
   const { t } = useTranslation()
+  const isFirst = React.useRef(true)
 
   React.useEffect(() => {
-    console.log(state.host, state.session)
+    if (isFirst.current) {
+      isFirst.current = false
+    } else {
+      return
+    }
+
+    // eslint-disable-next-line no-extra-semi
     ;(async () => {
       const { data } = await axios.post(
         `${state.host}/api/miauth/${state.session}/check`,
       )
 
-      console.log(data.ok)
+      const host = state.host.match(/https?:\/\/(.*)/)![1]
+
+      if (!data.ok) {
+        Toast.show({
+          type: 'error',
+          text1: t('login.errors.loginFailed'),
+        })
+        currentUrlState.set(null)
+        return
+      }
+
+      Toast.show({
+        type: 'success',
+        text1: t('login.loggedIn'),
+        text2: `@${data.user.username}@${host}`,
+      })
+
+      console.log(data.token)
+      currentUrlState.set(null)
     })()
-  }, [state])
+  }, [state, t])
 
   return (
     <Components.Background>
