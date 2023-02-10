@@ -2,12 +2,14 @@ import React from 'react'
 import { useThemeData } from './src/utils/theme'
 import styled, { ThemeProvider, useTheme } from 'styled-components/native'
 import { LoginPage } from './src/views/login/LoginPage'
-import { ActivityIndicator, Linking } from 'react-native'
+import { ActivityIndicator, Linking, Text } from 'react-native'
 import { currentUrlState, handleLink } from './src/utils/url'
 import { useStore } from '@nanostores/react'
 import { LoginCallbackPage } from './src/views/login/LoginCallbackPage'
 import Toast from 'react-native-toast-message'
-import { loadAccounts } from './src/utils/accounts'
+import { accountStore, loadAccounts } from './src/utils/accounts'
+import { NativeRouter } from 'react-router-native'
+import { MkRouter } from './src/components/MkRouter'
 
 Linking.getInitialURL().then(url => {
   if (!url) {
@@ -60,6 +62,14 @@ function App(): JSX.Element {
     })()
   }, [])
 
+  const accounts = useStore(accountStore)
+
+  const accountList = React.useMemo(() => Object.values(accounts), [accounts])
+
+  if (urlState) {
+    return <LoginCallbackPage state={urlState} />
+  }
+
   if (loading) {
     return (
       <FullscreenCenter>
@@ -68,8 +78,18 @@ function App(): JSX.Element {
     )
   }
 
+  if (urlState) {
+    return <LoginCallbackPage state={urlState} />
+  }
+
+  if (!accountList.length) {
+    return <LoginPage />
+  }
+
   return (
-    <>{urlState ? <LoginCallbackPage state={urlState} /> : <LoginPage />}</>
+    <NativeRouter>
+      <MkRouter />
+    </NativeRouter>
   )
 }
 

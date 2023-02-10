@@ -29,6 +29,7 @@
     "react-native-svg": "^13.8.0",
     "react-native-toast-message": "^2.1.5",
     "react-native-uuid": "^2.0.1",
+    "react-router-native": "^6.8.1",
     "styled-components": "^5.3.6",
     "tabler-icons-react-native": "^1.118.0"
   },
