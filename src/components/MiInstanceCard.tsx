@@ -9,6 +9,7 @@ import {
   HTMLElementModel,
 } from '@native-html/transient-render-engine'
 import { ActivityIndicator } from 'react-native'
+import { Alert, AlertText } from './Alert'
 
 const Container = styled.View`
   background-color: ${({ theme }) => theme.panel};
@@ -77,7 +78,13 @@ export const MiInstanceCard: React.FC<{ instance: InstanceMeta }> = ({
         )}
       </SpaceTop>
       <SpaceTop>
-        <MiButton text={t('login.loginToInstance')} />
+        {instance.features?.miauth ? (
+          <MiButton text={t('login.loginToInstance')} />
+        ) : (
+          <Alert severity="error">
+            <AlertText>{t('login.errors.noMiAuth')}</AlertText>
+          </Alert>
+        )}
       </SpaceTop>
     </Container>
   )
