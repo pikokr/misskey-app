@@ -2,8 +2,10 @@
   "login": {
     "instanceAddress": "인스턴스 주소",
     "errors": {
-      "cannotFindInstance": "인스턴스를 찾을 수 없습니다. 인스턴스 주소가 정확한지 확인해 주세요."
+      "cannotFindInstance": "인스턴스를 찾을 수 없습니다. 인스턴스 주소가 정확한지 확인해 주세요.",
+      "noDescription": "이 인스턴스에 대한 설명이 없습니다."
     },
-    "searchInstance": "인스턴스 찾기"
+    "searchInstance": "인스턴스 찾기",
+    "loginToInstance": "이 인스턴스에 로그인하기"
   }
 }

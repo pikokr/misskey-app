@@ -1,6 +1,7 @@
 import { Ad } from './ad'
 
 export interface InstanceMeta {
+  themeColor: string
   maintainerName: string | null
   maintainerEmail: string | null
   version: string | null
