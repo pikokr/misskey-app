@@ -16,6 +16,7 @@ import axios from 'axios'
 import { alertColors } from '../../Alert'
 import { MkAvatar } from '../../MkAvatar'
 import { User } from '../../../types/user'
+import { fetchers } from '../../../utils/fetcher'
 
 const Components = {
   Container: styled.View`
@@ -57,19 +58,14 @@ const NavItem: React.FC<{
   )
 }
 
-const fetcher = (acc: Account) =>
-  axios
-    .post<User>(`https://${acc.host}/api/users/show`, {
-      username: acc.username,
-    })
-    .then(x => x.data)
-
 const AccountNavItem: React.FC = () => {
   const navigate = useNavigate()
   const theme = useTheme()
   const account = useSelectedAccount()
 
-  const { data, isLoading, error } = useSWR<User>(account, { fetcher })
+  const { data, isLoading, error } = useSWR<User>(account, {
+    fetcher: fetchers.user,
+  })
 
   return (
     <Components.ItemContainer>

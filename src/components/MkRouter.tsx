@@ -5,18 +5,22 @@ import {
   Routes,
   UNSAFE_NavigationContext,
   useNavigate,
-  useNavigationType,
 } from 'react-router-native'
 import { NotFoundPage } from '../views/NotFound'
 import { HomeLayout } from './layout/home/HomeLayout'
 import { TimelineView } from '../views/home/timeline/Timeline'
 import { BackHandler } from 'react-native'
+import { MyProfileView } from './layout/home/MyProfileView'
+import { useSelectedAccount } from '../utils/accounts'
+import { fetchers } from '../utils/fetcher'
 
 export const MkRouter: React.FC = () => {
   const navigate = useNavigate()
 
   const navigator = React.useContext(UNSAFE_NavigationContext)
     .navigator as Navigator & { index: number }
+
+  const selectedAccount = useSelectedAccount()
 
   React.useEffect(() => {
     const back = () => {
@@ -37,6 +41,7 @@ export const MkRouter: React.FC = () => {
     <Routes>
       <Route element={<HomeLayout />}>
         <Route index element={<TimelineView />} />
+        <Route path="me" element={<MyProfileView />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

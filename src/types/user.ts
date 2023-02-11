@@ -1,5 +1,6 @@
 export interface User {
   avatarUrl: string
+  bannerUrl: string
   fields: { name: string; value: string }[]
   username: string
   notesCount: number
@@ -7,4 +8,5 @@ export interface User {
   name: string
   id: string
   host: string
+  description: string
 }
