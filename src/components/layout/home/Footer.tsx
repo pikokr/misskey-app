@@ -73,7 +73,8 @@ const AccountNavItem: React.FC = () => {
 
   return (
     <Components.ItemContainer>
-      <Components.ItemTouchable onPress={() => navigate('/')}>
+      <Components.ItemTouchable
+        onPress={() => navigate('/me', { replace: true })}>
         <Components.ItemContent>
           {isLoading ? (
             <ActivityIndicator color={theme.fg} />
