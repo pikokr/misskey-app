@@ -59,6 +59,24 @@ const Components = {
   TopSpacer: styled.View`
     margin-top: 24px;
   `,
+  FieldListItem: styled.View<{ index: number }>`
+    flex-direction: row;
+    margin-top: ${({ index }) => (index === 0 ? 0 : 4)}px;
+  `,
+  FieldListItemName: styled.Text`
+    width: 25%;
+    text-align: center;
+    color: ${({ theme }) => theme.fg};
+
+    font-weight: bold;
+    font-size: 16px;
+  `,
+  FieldListItemValue: styled.Text`
+    flex-grow: 1;
+    width: 0;
+    color: ${({ theme }) => theme.fg};
+    font-size: 16px;
+  `,
 }
 
 export const MkProfileTopArea: React.FC<{ user: User }> = ({ user }) => {
@@ -87,7 +105,16 @@ export const MkProfileTopArea: React.FC<{ user: User }> = ({ user }) => {
 
       <Components.TopSpacer>
         <Components.Section>
-          <Text>{JSON.stringify(user.fields)}</Text>
+          {user.fields.map((x, i) => (
+            <Components.FieldListItem index={i} key={i}>
+              <Components.FieldListItemName>
+                {x.name}
+              </Components.FieldListItemName>
+              <Components.FieldListItemValue>
+                {x.value}
+              </Components.FieldListItemValue>
+            </Components.FieldListItem>
+          ))}
         </Components.Section>
       </Components.TopSpacer>
     </Components.Container>
