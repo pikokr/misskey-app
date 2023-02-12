@@ -2,6 +2,10 @@ import React from 'react'
 import styled from 'styled-components/native'
 import { User } from '../../types/user'
 import FastImage from 'react-native-fast-image'
+import { MkUserName } from '../../components/mfm/MkUserName'
+import { MfmSimpleRenderer } from '../../components/mfm/MfmSimpleRenderer'
+import { parseSimple } from 'mfm-js'
+import { Text } from 'react-native'
 
 const Components = {
   Container: styled.View``,
@@ -80,6 +84,10 @@ const Components = {
 }
 
 export const MkProfileTopArea: React.FC<{ user: User }> = ({ user }) => {
+  const mfmUsernameContent = React.useMemo(() => {
+    return parseSimple(user.name ?? user.username)
+  }, [user.username, user.name])
+
   return (
     <Components.Container>
       <Components.BannerContainer>
@@ -98,7 +106,13 @@ export const MkProfileTopArea: React.FC<{ user: User }> = ({ user }) => {
       </Components.BannerContainer>
       <Components.UserNameArea>
         <Components.Section>
-          <Components.ProfileNameText>{user.name}</Components.ProfileNameText>
+          <Components.ProfileNameText>
+            <MfmSimpleRenderer
+              fontSize={24}
+              emojis={user.emojis}
+              nodes={mfmUsernameContent}
+            />
+          </Components.ProfileNameText>
           <Components.Description>{user.description}</Components.Description>
         </Components.Section>
       </Components.UserNameArea>
