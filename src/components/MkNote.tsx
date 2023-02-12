@@ -14,9 +14,8 @@ const Components = {
     ${({ divider }) =>
       divider
         ? css`
-            border-top-width: 1px;
-            border-top-style: solid;
-            border-top-color: ${({ theme }) => theme.divider};
+            border-bottom-width: 1px;
+            border-bottom-color: ${({ theme }) => theme.divider};
           `
         : ''}
   `,

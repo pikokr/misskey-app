@@ -20,13 +20,13 @@ export const TimelineView: React.FC = () => {
 
       setNotes(data)
     })().finally(() => {
-      setIsLoading(false)
+      // setIsLoading(false)
     })
   }, [account])
 
   return (
     <View>
-      <MkTimeline notes={notes} />
+      <MkTimeline notes={notes} loading={isLoading} />
     </View>
   )
 }
