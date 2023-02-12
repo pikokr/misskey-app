@@ -1,18 +1,18 @@
 import React from 'react'
 import styled from 'styled-components/native'
 
-const AvatarContainer = styled.View`
+const AvatarContainer = styled.View<{ size: number }>`
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
+  width: ${({ size }) => size}px;
+  height: ${({ size }) => size}px;
 `
 
-const ImageContainer = styled.View`
-  width: 36px;
-  height: 36px;
-  border-radius: 18px;
+const ImageContainer = styled.View<{ size: number }>`
+  border-radius: ${({ size }) => size / 2}px;
   overflow: hidden;
+  width: ${({ size }) => size}px;
+  height: ${({ size }) => size}px;
 `
 
 const AvatarImg = styled.Image`
@@ -20,10 +20,13 @@ const AvatarImg = styled.Image`
   height: 100%;
 `
 
-export const MkAvatar: React.FC<{ src: string }> = ({ src }) => {
+export const MkAvatar: React.FC<{ src: string; size?: number }> = ({
+  src,
+  size = 36,
+}) => {
   return (
-    <AvatarContainer>
-      <ImageContainer>
+    <AvatarContainer size={size}>
+      <ImageContainer size={size}>
         <AvatarImg
           source={{
             uri: src,

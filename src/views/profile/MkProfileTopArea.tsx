@@ -47,7 +47,7 @@ const Components = {
     elevation: 4;
   `,
   ProfileNameText: styled.Text`
-    font-size: 36px;
+    font-size: 24px;
     font-weight: bold;
     color: ${({ theme }) => theme.fg};
   `,
