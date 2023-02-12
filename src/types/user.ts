@@ -1,3 +1,10 @@
+export enum OnlineStatus {
+  Unknown = 'unknown',
+  Online = 'online',
+  Active = 'active',
+  Offline = 'offline',
+}
+
 export interface User {
   avatarUrl: string
   bannerUrl: string
