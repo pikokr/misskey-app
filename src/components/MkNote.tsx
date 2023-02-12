@@ -50,8 +50,6 @@ export const MkNote: React.FC<{ note: Note; divider?: boolean }> = ({
 
   const theme = useTheme()
 
-  console.log(theme.fg)
-
   return (
     <Components.Container divider={divider}>
       <MkAvatar src={note.user.avatarUrl} size={48} />
