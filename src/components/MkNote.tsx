@@ -1,13 +1,13 @@
 import React from 'react'
 import { Note } from '../types/note'
-import { Text, View } from 'react-native'
+import { Text } from 'react-native'
 import styled, { css, useTheme } from 'styled-components/native'
 import { MkAvatar } from './MkAvatar'
 import { useSelectedAccount } from '../utils/accounts'
 
 const Components = {
   Container: styled.View<{ divider: boolean }>`
-    background-color: ${({ theme }) => theme.panel};
+    background-color: ${({ theme }) => theme.bg};
     padding: 24px;
     flex-direction: row;
     gap: 16px;
@@ -66,7 +66,7 @@ export const MkNote: React.FC<{ note: Note; divider?: boolean }> = ({
             </Components.HandleHost>
           </Components.HandleContainer>
         </Components.UsernameContainer>
-        {note.cw ? <Text>{note.cw} - CW</Text> : <Text>{note.text}</Text>}
+        <Text>TODO</Text>
       </Components.Content>
     </Components.Container>
   )

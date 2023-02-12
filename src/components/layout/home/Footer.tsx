@@ -5,14 +5,12 @@ import {
   IconHome,
   IconMenu2,
   IconNotification,
-  IconPencil,
   TablerIcon,
 } from 'tabler-icons-react-native'
-import { ActivityIndicator, Text, TouchableNativeFeedback } from 'react-native'
-import { useLocation, useNavigate } from 'react-router-native'
+import { ActivityIndicator, Text } from 'react-native'
+import { useNavigate } from 'react-router-native'
 import useSWR from 'swr'
-import { Account, useSelectedAccount } from '../../../utils/accounts'
-import axios from 'axios'
+import { useSelectedAccount } from '../../../utils/accounts'
 import { alertColors } from '../../Alert'
 import { MkAvatar } from '../../MkAvatar'
 import { User } from '../../../types/user'
@@ -22,6 +20,8 @@ const Components = {
   Container: styled.View`
     background-color: ${({ theme }) => theme.panel};
     flex-direction: row;
+    border-top-color: ${({ theme }) => theme.divider};
+    border-top-width: 1px;
   `,
   ItemContainer: styled.View`
     flex-grow: 1;
