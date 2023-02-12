@@ -30,6 +30,7 @@ const renderMfmNode = (
     case 'emojiCode':
       return (
         <MkCustomEmoji
+          name={node.props.name}
           key={index}
           size={fontSize}
           url={emojis[node.props.name]}
