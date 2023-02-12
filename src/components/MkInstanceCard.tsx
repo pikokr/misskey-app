@@ -117,7 +117,6 @@ export const MkInstanceCard: React.FC<{ instance: InstanceMeta }> = ({
 
       await Linking.openURL(url)
     } catch (e) {
-      console.log(e)
       setError('login.errors.cannotOpenBrowser')
     } finally {
       setLoggingIn(false)
