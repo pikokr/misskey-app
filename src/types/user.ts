@@ -16,4 +16,6 @@ export interface User {
   id: string
   host: string
   description: string
+
+  emojis: Record<string, string>
 }
