@@ -32,7 +32,8 @@
     "react-router-native": "^6.8.1",
     "styled-components": "^5.3.6",
     "swr": "^2.0.3",
-    "tabler-icons-react-native": "^1.118.0"
+    "tabler-icons-react-native": "^1.118.0",
+    "tinycolor2": "^1.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -45,6 +46,7 @@
     "@types/react": "^18.0.24",
     "@types/react-test-renderer": "^18.0.0",
     "@types/styled-components-react-native": "^5.2.1",
+    "@types/tinycolor2": "^1.4.3",
     "babel-jest": "^29.2.1",
     "eslint": "^8.19.0",
     "jest": "^29.2.1",

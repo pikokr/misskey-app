@@ -23,7 +23,7 @@ const AppContainer: React.FC = () => {
 
   return (
     <>
-      <ThemeProvider theme={theme.props}>
+      <ThemeProvider theme={theme}>
         <App />
       </ThemeProvider>
       <Toast />

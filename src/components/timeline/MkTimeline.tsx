@@ -1,6 +1,7 @@
 import React from 'react'
 import { ScrollView, Text, VirtualizedList } from 'react-native'
 import { Note } from '../../types/note'
+import { MkNote } from '../MkNote'
 
 export interface MkTimelineProps {
   notes: Note[]
@@ -8,12 +9,12 @@ export interface MkTimelineProps {
 
 export const MkTimeline: React.FC<MkTimelineProps> = ({ notes }) => {
   return (
-    <VirtualizedList
+    <VirtualizedList<Note>
       getItemCount={data => data.length}
       data={notes}
       getItem={(data, index) => data[index]}
       renderItem={info => {
-        return <Text>{JSON.stringify(info, null, 2)}</Text>
+        return <MkNote note={info.item} divider={info.index !== 0} />
       }}
     />
   )
