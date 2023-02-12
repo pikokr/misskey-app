@@ -1,5 +1,5 @@
 import React from 'react'
-import { toCodePoints } from 'twemoji-parser'
+import { parse } from 'twemoji-parser'
 import { SvgUri } from 'react-native-svg'
 import styled from 'styled-components/native'
 
@@ -13,21 +13,42 @@ const Content = styled(SvgUri)<{ size: number }>`
   position: absolute;
 `
 
+const FallbackContainer = styled.View<{ size: number }>`
+  width: ${({ size }) => size}px;
+  height: ${({ size }) => size}px;
+  position: absolute;
+`
+
+const FallbackContent = styled.Text<{ size: number }>`
+  font-size: ${({ size }) => size}px;
+  position: absolute;
+  width: ${({ size }) => size}px;
+  height: ${({ size }) => size}px;
+`
+
 export const MkUnicodeEmoji: React.FC<{ code: string; size: number }> = ({
   code,
   size,
 }) => {
-  const url = React.useMemo(
-    () =>
-      `https://cdn.jsdelivr.net/npm/twemoji@11.3.0/2/svg/${toCodePoints(
-        code,
-      ).join('-')}.svg`,
-    [code],
-  )
+  const url = React.useMemo(() => parse(code)[0].url, [code])
+
+  const [isErrored, setIsErrored] = React.useState(false)
 
   return (
     <Container size={size}>
-      <Content uri={url} size={size} width={size} height={size} />
+      {isErrored ? (
+        <Content
+          uri={url}
+          size={size}
+          width={size}
+          height={size}
+          onError={() => setIsErrored(true)}
+        />
+      ) : (
+        <FallbackContainer size={size}>
+          <FallbackContent size={size}>{code}</FallbackContent>
+        </FallbackContainer>
+      )}
     </Container>
   )
 }
