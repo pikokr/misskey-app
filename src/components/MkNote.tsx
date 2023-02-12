@@ -1,9 +1,9 @@
 import React from 'react'
 import { Note } from '../types/note'
 import { Text } from 'react-native'
-import styled, { css, useTheme } from 'styled-components/native'
+import styled, { css } from 'styled-components/native'
 import { MkAvatar } from './MkAvatar'
-import { useSelectedAccount } from '../utils/accounts'
+import { Account } from '../utils/accounts'
 
 const Components = {
   Container: styled.View<{ divider: boolean }>`
@@ -42,29 +42,59 @@ const Components = {
   `,
 }
 
-export const MkNote: React.FC<{ note: Note; divider?: boolean }> = ({
-  note,
-  divider = false,
-}) => {
-  const account = useSelectedAccount()
+export class MkNote extends React.PureComponent<{
+  note: Note
+  divider?: boolean
+  account: Account
+}> {
+  render() {
+    const { note, divider = false, account } = this.props
 
-  return (
-    <Components.Container divider={divider}>
-      <MkAvatar src={note.user.avatarUrl} size={48} />
-      <Components.Content>
-        <Components.UsernameContainer>
-          <Components.Username>
-            {note.user.name || note.user.username}
-          </Components.Username>
-          <Components.HandleContainer>
-            <Text>{note.user.username}</Text>
-            <Components.HandleHost>
-              @{note.user.host ?? account.host}
-            </Components.HandleHost>
-          </Components.HandleContainer>
-        </Components.UsernameContainer>
-        <Text>TODO</Text>
-      </Components.Content>
-    </Components.Container>
-  )
+    return (
+      <Components.Container divider={divider}>
+        <MkAvatar src={note.user.avatarUrl} size={48} />
+        <Components.Content>
+          <Components.UsernameContainer>
+            <Components.Username>
+              {note.user.name || note.user.username}
+            </Components.Username>
+            <Components.HandleContainer>
+              <Text>{note.user.username}</Text>
+              <Components.HandleHost>
+                @{note.user.host ?? account.host}
+              </Components.HandleHost>
+            </Components.HandleContainer>
+          </Components.UsernameContainer>
+          <Text>TODO</Text>
+        </Components.Content>
+      </Components.Container>
+    )
+  }
 }
+
+// export const MkNote: React.FC<{ note: Note; divider?: boolean }> = ({
+//   note,
+//   divider = false,
+// }) => {
+//   const account = useSelectedAccount()
+//
+//   return (
+//     <Components.Container divider={divider}>
+//       <MkAvatar src={note.user.avatarUrl} size={48} />
+//       <Components.Content>
+//         <Components.UsernameContainer>
+//           <Components.Username>
+//             {note.user.name || note.user.username}
+//           </Components.Username>
+//           <Components.HandleContainer>
+//             <Text>{note.user.username}</Text>
+//             <Components.HandleHost>
+//               @{note.user.host ?? account.host}
+//             </Components.HandleHost>
+//           </Components.HandleContainer>
+//         </Components.UsernameContainer>
+//         <Text>TODO</Text>
+//       </Components.Content>
+//     </Components.Container>
+//   )
+// }

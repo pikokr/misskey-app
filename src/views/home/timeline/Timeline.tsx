@@ -10,13 +10,16 @@ export const TimelineView: React.FC = () => {
   const [hasMore, setHasMore] = React.useState(true)
 
   const [isFirstLoad, setIsFirstLoad] = React.useState(true)
+  const loadingRef = React.useRef(false)
 
   const account = useSelectedAccount()
 
   React.useEffect(() => {
-    if (isLoading || !isFirstLoad) {
+    if (isLoading || !isFirstLoad || loadingRef.current) {
       return
     }
+
+    loadingRef.current = true
 
     setIsFirstLoad(false)
 
@@ -32,17 +35,18 @@ export const TimelineView: React.FC = () => {
       setHasMore(data.length === 11)
     })().finally(() => {
       setIsLoading(false)
+      loadingRef.current = false
     })
   }, [account, isFirstLoad, isLoading])
 
   const loadMore = React.useCallback(async () => {
-    if (!hasMore || !notes.length || isLoading) {
+    if (!hasMore || !notes.length || isLoading || loadingRef.current) {
       return
     }
 
-    const lastNote = notes[notes.length - 1]
+    loadingRef.current = true
 
-    console.log(lastNote.id)
+    const lastNote = notes[notes.length - 1]
 
     const { data } = await account.api.post<Note[]>('/notes/timeline', {
       limit: 31,
@@ -56,6 +60,8 @@ export const TimelineView: React.FC = () => {
     })
 
     setHasMore(data.length === 30)
+
+    loadingRef.current = false
   }, [hasMore, notes, isLoading, account.api])
 
   return (

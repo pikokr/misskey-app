@@ -20,7 +20,6 @@ const createAxiosClient = (host: string, token: string): AxiosInstance => {
 
   api.interceptors.request.use(config => {
     if (config.data) {
-      console.log('injecting token')
       config.data.i = token
     }
 
@@ -59,12 +58,10 @@ export const loadAccounts = async () => {
 }
 
 export const useSelectedAccount = () => {
-  const accounts = useStore(accountStore)
-
-  return React.useMemo(() => {
-    return Object.values(accounts)[0]
-  }, [accounts])
+  return React.useContext(SelectedAccountContext)
 }
+
+export const SelectedAccountContext = React.createContext<Account>(null!)
 
 export const addAccount = async (
   server: string,

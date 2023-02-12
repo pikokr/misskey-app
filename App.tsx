@@ -7,7 +7,11 @@ import { currentUrlState, handleLink } from './src/utils/url'
 import { useStore } from '@nanostores/react'
 import { LoginCallbackPage } from './src/views/login/LoginCallbackPage'
 import Toast from 'react-native-toast-message'
-import { accountStore, loadAccounts } from './src/utils/accounts'
+import {
+  accountStore,
+  loadAccounts,
+  SelectedAccountContext,
+} from './src/utils/accounts'
 import { NativeRouter } from 'react-router-native'
 import { MkRouter } from './src/components/MkRouter'
 
@@ -67,6 +71,10 @@ function App(): JSX.Element {
 
   const accountList = React.useMemo(() => Object.values(accounts), [accounts])
 
+  const selectedAccount = React.useMemo(() => {
+    return accountList[0]
+  }, [accountList])
+
   if (urlState) {
     return <LoginCallbackPage state={urlState} />
   }
@@ -88,9 +96,11 @@ function App(): JSX.Element {
   }
 
   return (
-    <NativeRouter>
-      <MkRouter />
-    </NativeRouter>
+    <SelectedAccountContext.Provider value={selectedAccount}>
+      <NativeRouter>
+        <MkRouter />
+      </NativeRouter>
+    </SelectedAccountContext.Provider>
   )
 }
 
