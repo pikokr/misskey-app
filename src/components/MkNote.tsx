@@ -48,14 +48,14 @@ export const MkNote: React.FC<{ note: Note; divider?: boolean }> = ({
 }) => {
   const account = useSelectedAccount()
 
-  const theme = useTheme()
-
   return (
     <Components.Container divider={divider}>
       <MkAvatar src={note.user.avatarUrl} size={48} />
       <Components.Content>
         <Components.UsernameContainer>
-          <Components.Username>{note.user.name}</Components.Username>
+          <Components.Username>
+            {note.user.name || note.user.username}
+          </Components.Username>
           <Components.HandleContainer>
             <Text>{note.user.username}</Text>
             <Components.HandleHost>
