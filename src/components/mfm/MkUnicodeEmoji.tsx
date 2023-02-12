@@ -1,14 +1,22 @@
 import React from 'react'
 import { toCodePoints } from 'twemoji-parser'
-import FastImage from 'react-native-fast-image'
+import { SvgUri } from 'react-native-svg'
 import styled from 'styled-components/native'
 
-const EmojiImg = styled(FastImage)`
-  width: 24px;
-  height: 24px;
+const Container = styled.View<{ size: number }>`
+  width: ${({ size }) => size}px;
+  height: ${({ size }) => size}px;
 `
 
-export const MkUnicodeEmoji: React.FC<{ code: string }> = ({ code }) => {
+const Content = styled(SvgUri)<{ size: number }>`
+  top: ${({ size }) => size / 4}px;
+  position: absolute;
+`
+
+export const MkUnicodeEmoji: React.FC<{ code: string; size: number }> = ({
+  code,
+  size,
+}) => {
   const url = React.useMemo(
     () =>
       `https://cdn.jsdelivr.net/npm/twemoji@11.3.0/2/svg/${toCodePoints(
@@ -17,13 +25,9 @@ export const MkUnicodeEmoji: React.FC<{ code: string }> = ({ code }) => {
     [code],
   )
 
-  console.log(url)
-
   return (
-    <EmojiImg
-      source={{
-        uri: url,
-      }}
-    />
+    <Container size={size}>
+      <Content uri={url} size={size} width={size} height={size} />
+    </Container>
   )
 }

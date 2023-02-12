@@ -4,7 +4,6 @@ import { Text } from 'react-native'
 import styled, { css } from 'styled-components/native'
 import { MkAvatar } from './MkAvatar'
 import { Account } from '../utils/accounts'
-import * as mfm from 'mfm-js'
 import { MkUserName } from './mfm/MkUserName'
 
 const Components = {
@@ -73,6 +72,7 @@ export class MkNote extends React.PureComponent<Props> {
         <Components.Content>
           <Components.UsernameContainer>
             <MkUserName
+              emojis={note.user.emojis}
               host={note.user.host}
               text={note.user.name || note.user.username}
             />

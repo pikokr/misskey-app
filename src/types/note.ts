@@ -41,8 +41,7 @@ export interface Note {
   reactions: {}
   // TODO
   reactionEmojis: {}
-  // TODO
-  emojis: {}
+  emojis: Record<string, string>
   // TODO
   fileIds: []
   // TODO
