@@ -36,6 +36,7 @@ const FullscreenCenter = styled.View`
   height: 100%;
   justify-content: center;
   align-items: center;
+  background-color: ${({ theme }) => theme.bg};
 `
 
 function App(): JSX.Element {
