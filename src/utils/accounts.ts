@@ -74,12 +74,13 @@ export const addAccount = async (
 
   const items = accountStore.get()
 
-  items[`${username}@${server}`] = {
-    host: server,
-    token,
-    username: username,
-    api: createAxiosClient(server, token),
-  }
-
-  accountStore.notify(`${username}@${server}`)
+  accountStore.set({
+    ...items,
+    [`${username}@${server}`]: {
+      host: server,
+      token,
+      username: username,
+      api: createAxiosClient(server, token),
+    },
+  })
 }

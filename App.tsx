@@ -45,11 +45,11 @@ const FullscreenCenter = styled.View`
 
 function App(): JSX.Element {
   React.useEffect(() => {
-    Linking.addEventListener('url', ({ url }) => {
+    const sub = Linking.addEventListener('url', ({ url }) => {
       handleLink(url)
     })
 
-    return () => Linking.removeAllListeners('url')
+    return () => sub.remove()
   }, [])
 
   const theme = useTheme()
