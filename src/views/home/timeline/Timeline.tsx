@@ -6,11 +6,20 @@ import { Note } from '../../../types/note'
 
 export const TimelineView: React.FC = () => {
   const [notes, setNotes] = React.useState<Note[]>([])
-  const [isLoading, setIsLoading] = React.useState(true)
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [hasMore, setHasMore] = React.useState(true)
+
+  const [isFirstLoad, setIsFirstLoad] = React.useState(true)
 
   const account = useSelectedAccount()
 
   React.useEffect(() => {
+    if (isLoading || !isFirstLoad) {
+      return
+    }
+
+    setIsFirstLoad(false)
+
     setNotes([])
     setIsLoading(true)
     ;(async () => {
@@ -19,14 +28,43 @@ export const TimelineView: React.FC = () => {
       })
 
       setNotes(data)
+
+      setHasMore(data.length === 11)
     })().finally(() => {
-      // setIsLoading(false)
+      setIsLoading(false)
     })
-  }, [account])
+  }, [account, isFirstLoad, isLoading])
+
+  const loadMore = React.useCallback(async () => {
+    if (!hasMore || !notes.length || isLoading) {
+      return
+    }
+
+    const lastNote = notes[notes.length - 1]
+
+    console.log(lastNote.id)
+
+    const { data } = await account.api.post<Note[]>('/notes/timeline', {
+      limit: 31,
+      untilId: lastNote.id,
+    })
+
+    data.shift()
+
+    setNotes(prev => {
+      return [...prev, ...data]
+    })
+
+    setHasMore(data.length === 30)
+  }, [hasMore, notes, isLoading, account.api])
 
   return (
     <View>
-      <MkTimeline notes={notes} loading={isLoading} />
+      <MkTimeline
+        onMore={loadMore}
+        notes={notes}
+        loading={isLoading || hasMore}
+      />
     </View>
   )
 }
