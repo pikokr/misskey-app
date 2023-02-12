@@ -4,6 +4,8 @@ import { Text } from 'react-native'
 import styled, { css } from 'styled-components/native'
 import { MkAvatar } from './MkAvatar'
 import { Account } from '../utils/accounts'
+import * as mfm from 'mfm-js'
+import { MkUserName } from './mfm/MkUserName'
 
 const Components = {
   Container: styled.View<{ divider: boolean }>`
@@ -26,11 +28,6 @@ const Components = {
   UsernameContainer: styled.View`
     gap: 2px;
   `,
-  Username: styled.Text`
-    color: ${({ theme }) => theme.fg};
-    font-size: 16px;
-    font-weight: bold;
-  `,
   HandleContainer: styled.Text`
     color: ${({ theme }) => theme.fg};
     align-items: center;
@@ -42,11 +39,31 @@ const Components = {
   `,
 }
 
-export class MkNote extends React.PureComponent<{
+type Props = {
   note: Note
   divider?: boolean
   account: Account
-}> {
+}
+
+export class MkNote extends React.PureComponent<Props> {
+  constructor(props: Props) {
+    super(props)
+
+    this.updateMfmText()
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.note.text !== this.props.note.text) {
+      this.updateMfmText()
+    }
+  }
+
+  updateMfmText() {
+    if (!this.props.note.text) {
+      return
+    }
+  }
+
   render() {
     const { note, divider = false, account } = this.props
 
@@ -55,9 +72,10 @@ export class MkNote extends React.PureComponent<{
         <MkAvatar src={note.user.avatarUrl} size={48} />
         <Components.Content>
           <Components.UsernameContainer>
-            <Components.Username>
-              {note.user.name || note.user.username}
-            </Components.Username>
+            <MkUserName
+              host={note.user.host}
+              text={note.user.name || note.user.username}
+            />
             <Components.HandleContainer>
               <Text>{note.user.username}</Text>
               <Components.HandleHost>
