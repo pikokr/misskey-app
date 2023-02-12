@@ -30,6 +30,7 @@ specifiers:
   react: 18.2.0
   react-i18next: ^12.1.5
   react-native: 0.71.2
+  react-native-fast-image: ^8.6.3
   react-native-keychain: ^8.1.1
   react-native-reanimated: ^2.14.4
   react-native-render-html: ^6.3.4
@@ -58,6 +59,7 @@ dependencies:
   react: 18.2.0
   react-i18next: 12.1.5_5azy2rbabz3iqjjob67wefd4ze
   react-native: 0.71.2_oo5no556diumlvgcr27pvljqai
+  react-native-fast-image: 8.6.3_4abxuapkhmo52mhwaeeet7psu4
   react-native-keychain: 8.1.1
   react-native-reanimated: 2.14.4_cjirlsqxi47pjbepjho3sumkqe
   react-native-render-html: 6.3.4_weaahtbkluzodjkv23ruqkl6pe
@@ -6326,6 +6328,16 @@ packages:
     transitivePeerDependencies:
       - '@babel/preset-env'
       - supports-color
+
+  /react-native-fast-image/8.6.3_4abxuapkhmo52mhwaeeet7psu4:
+    resolution: {integrity: sha512-Sdw4ESidXCXOmQ9EcYguNY2swyoWmx53kym2zRsvi+VeFCHEdkO+WG1DK+6W81juot40bbfLNhkc63QnWtesNg==}
+    peerDependencies:
+      react: ^17 || ^18
+      react-native: '>=0.60.0'
+    dependencies:
+      react: 18.2.0
+      react-native: 0.71.2_oo5no556diumlvgcr27pvljqai
+    dev: false
 
   /react-native-gradle-plugin/0.71.14:
     resolution: {integrity: sha512-nnLawTZEPPRAKq92UqDkzoGgCBl9aa9zAihFHMwmwzn4WRVdK4O6Cd4XYiyoNOiQzx3Hh9k5WOckHE80C92ivQ==}

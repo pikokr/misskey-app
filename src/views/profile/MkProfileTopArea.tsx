@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components/native'
 import { User } from '../../types/user'
-import { Text } from 'react-native'
+import FastImage from 'react-native-fast-image'
 
 const Components = {
   Container: styled.View``,
-  ProfileImage: styled.Image`
+  ProfileImage: styled(FastImage)`
     width: 100%;
     height: 100%;
   `,
@@ -25,7 +25,7 @@ const Components = {
   BannerContainer: styled.View`
     aspect-ratio: 2;
   `,
-  BannerImage: styled.Image`
+  BannerImage: styled(FastImage)`
     width: 100%;
     height: 100%;
     position: absolute;

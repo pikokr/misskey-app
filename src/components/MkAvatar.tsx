@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/native'
+import FastImage from 'react-native-fast-image'
 
 const AvatarContainer = styled.View<{ size: number }>`
   justify-content: center;
@@ -15,7 +16,7 @@ const ImageContainer = styled.View<{ size: number }>`
   height: ${({ size }) => size}px;
 `
 
-const AvatarImg = styled.Image`
+const AvatarImg = styled(FastImage)`
   width: 100%;
   height: 100%;
 `
