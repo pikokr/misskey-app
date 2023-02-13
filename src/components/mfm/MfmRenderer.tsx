@@ -8,7 +8,6 @@ import { MfmSimpleRenderer } from './MfmSimpleRenderer'
 import { ThemeColor } from '../../utils/theme'
 import { IconExternalLink } from 'tabler-icons-react-native'
 import { Linking, StyleProp, Text, View } from 'react-native'
-import { MfmCenter, MfmCenterContent } from './MfmStyles'
 
 const MfmSimpleText = styled.Text<{ size: number; color: ThemeColor }>`
   color: ${({ theme, color }) => theme[color]};
@@ -99,7 +98,7 @@ const renderMfmNode = (
       )
     case 'center':
       return (
-        <MfmCenter>
+        <View>
           <MfmInlineRenderer
             textColor={textColor}
             emojis={emojis}
@@ -107,7 +106,7 @@ const renderMfmNode = (
             nodes={node.children}
             additionalStyles={{ textAlign: 'center' }}
           />
-        </MfmCenter>
+        </View>
       )
     case 'small':
       return (

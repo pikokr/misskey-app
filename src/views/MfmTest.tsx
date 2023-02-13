@@ -129,9 +129,7 @@ export const MfmTest: React.FC = () => {
   return (
     <SafeAreaView>
       <ScrollView style={styles.container}>
-        <Text>
-          <MfmRenderer content={content.trim()} emojis={{}} />
-        </Text>
+        <MfmRenderer content={content.trim()} emojis={{}} />
       </ScrollView>
     </SafeAreaView>
   )
