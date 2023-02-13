@@ -5,6 +5,7 @@ import styled, { css } from 'styled-components/native'
 import { MkAvatar } from './MkAvatar'
 import { Account } from '../utils/accounts'
 import { MkUserName } from './mfm/MkUserName'
+import { MfmRenderer } from './mfm/MfmRenderer'
 
 const Components = {
   Container: styled.View<{ divider: boolean }>`
@@ -83,7 +84,15 @@ export class MkNote extends React.PureComponent<Props> {
               </Components.HandleHost>
             </Components.HandleContainer>
           </Components.UsernameContainer>
-          <Text>TODO</Text>
+          {note.text && (
+            <Text>
+              <MfmRenderer
+                fontSize={14}
+                content={note.text.trim()}
+                emojis={note.emojis}
+              />
+            </Text>
+          )}
         </Components.Content>
       </Components.Container>
     )
