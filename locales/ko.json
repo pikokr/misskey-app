@@ -18,5 +18,11 @@
     "errors": {
       "notfound": "페이지를 찾을 수 없습니다."
     }
+  },
+  "note": {
+    "cw": {
+      "open": "더 보기 ({{characterCount}} 문자)",
+      "close": "숨기기"
+    }
   }
 }
