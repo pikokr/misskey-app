@@ -1,12 +1,13 @@
 import { MfmSimpleNode } from 'mfm-js'
 import React from 'react'
-import styled from 'styled-components/native'
+import styled, { useTheme } from 'styled-components/native'
 import { MkUnicodeEmoji } from './MkUnicodeEmoji'
 import { MkCustomEmoji } from './MkCustomEmoji'
 import { Note } from '../../types/note'
+import { ThemeColor } from '../../utils/theme'
 
-const MfmSimpleText = styled.Text<{ size: number }>`
-  color: ${({ theme }) => theme.fg};
+const MfmSimpleText = styled.Text<{ size: number; color: string }>`
+  color: ${({ color }) => color};
   font-size: ${({ size }) => size}px;
 `
 
@@ -15,11 +16,12 @@ const renderMfmNode = (
   index: number,
   fontSize: number,
   emojis: Note['emojis'],
+  textColor: string,
 ): React.ReactNode => {
   switch (node.type) {
     case 'text':
       return (
-        <MfmSimpleText size={fontSize} key={index}>
+        <MfmSimpleText color={textColor} size={fontSize} key={index}>
           {node.props.text}
         </MfmSimpleText>
       )
@@ -45,12 +47,17 @@ export const MfmSimpleRenderer: React.FC<{
   nodes: MfmSimpleNode[]
   emojis: Note['emojis']
   fontSize?: number
-}> = ({ nodes, emojis, fontSize = 16 }) => {
+  textColor?: ThemeColor
+}> = ({ nodes, textColor = 'fg', emojis, fontSize = 16 }) => {
+  const theme = useTheme()
+
+  let color = theme[textColor]
+
   const content = React.useMemo(() => {
     return nodes.map((x, i) => {
-      return renderMfmNode(x, i, fontSize, emojis)
+      return renderMfmNode(x, i, fontSize, emojis, color)
     })
-  }, [nodes, fontSize, emojis])
+  }, [nodes, fontSize, emojis, color])
 
   return <>{content}</>
 }
