@@ -11,6 +11,7 @@ import { HomeLayout } from './layout/home/HomeLayout'
 import { TimelineView } from '../views/home/timeline/Timeline'
 import { BackHandler } from 'react-native'
 import { MyProfileView } from './layout/home/MyProfileView'
+import { MfmTest } from '../views/MfmTest'
 
 export const MkRouter: React.FC = () => {
   const navigate = useNavigate()
@@ -38,6 +39,7 @@ export const MkRouter: React.FC = () => {
       <Route element={<HomeLayout />}>
         <Route index element={<TimelineView />} />
         <Route path="me" element={<MyProfileView />} />
+        <Route path="notifications" element={<MfmTest />} />
       </Route>
       <Route path="users/:id" element={<MyProfileView />} />
       <Route path="*" element={<NotFoundPage />} />

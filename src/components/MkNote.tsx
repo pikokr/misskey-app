@@ -119,13 +119,11 @@ export class MkNote extends React.PureComponent<Props, { cwOpen: boolean }> {
     const content = (
       <>
         {note.text && (
-          <Text>
-            <MfmRenderer
-              fontSize={14}
-              content={note.text.trim()}
-              emojis={note.emojis}
-            />
-          </Text>
+          <MfmRenderer
+            fontSize={14}
+            content={note.text.trim()}
+            emojis={note.emojis}
+          />
         )}
       </>
     )
@@ -149,14 +147,12 @@ export class MkNote extends React.PureComponent<Props, { cwOpen: boolean }> {
           </Components.UsernameContainer>
           {note.cw && (
             <>
-              <Text>
-                <MfmRenderer content={note.cw} emojis={note.emojis} />
-                <CwButton
-                  open={this.state.cwOpen}
-                  onOpen={this.openCW}
-                  characterCount={note.text?.length ?? 0}
-                />
-              </Text>
+              <MfmRenderer content={note.cw} emojis={note.emojis} />
+              <CwButton
+                open={this.state.cwOpen}
+                onOpen={this.openCW}
+                characterCount={note.text?.length ?? 0}
+              />
             </>
           )}
           {note.cw ? (this.state.cwOpen ? content : null) : content}

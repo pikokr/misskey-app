@@ -6,9 +6,9 @@ import { MkCustomEmoji } from './MkCustomEmoji'
 import { Note } from '../../types/note'
 import { MfmSimpleRenderer } from './MfmSimpleRenderer'
 import { ThemeColor } from '../../utils/theme'
-import renderTextualContent from 'react-native-render-html/lib/typescript/renderTextualContent'
 import { IconExternalLink } from 'tabler-icons-react-native'
-import { Linking } from 'react-native'
+import { Linking, StyleProp, Text, View } from 'react-native'
+import { MfmCenter, MfmCenterContent } from './MfmStyles'
 
 const MfmSimpleText = styled.Text<{ size: number; color: ThemeColor }>`
   color: ${({ theme, color }) => theme[color]};
@@ -58,40 +58,37 @@ const Link: React.FC<
 
 const renderMfmNode = (
   node: MfmNode,
-  index: number,
   fontSize: number,
   emojis: Note['emojis'],
   textColor: ThemeColor,
+  additionalStyles: StyleProp<any>,
 ): React.ReactNode => {
   switch (node.type) {
     case 'text':
       return (
-        <MfmSimpleText size={fontSize} key={index} color={textColor}>
+        <MfmSimpleText size={fontSize} color={textColor}>
           {node.props.text}
         </MfmSimpleText>
       )
     case 'unicodeEmoji':
-      return (
-        <MkUnicodeEmoji key={index} code={node.props.emoji} size={fontSize} />
-      )
+      return <MkUnicodeEmoji code={node.props.emoji} size={fontSize} />
     case 'emojiCode':
       return (
         <MkCustomEmoji
           name={node.props.name}
-          key={index}
           size={fontSize}
           url={emojis[node.props.name]}
         />
       )
     case 'url':
       return (
-        <Link key={index} href={node.props.url} size={fontSize}>
+        <Link href={node.props.url} size={fontSize}>
           <LinkText size={fontSize}>{node.props.url}</LinkText>
         </Link>
       )
     case 'link':
       return (
-        <Link key={index} href={node.props.url} size={fontSize}>
+        <Link href={node.props.url} size={fontSize}>
           <MfmInlineRenderer
             textColor="link"
             emojis={emojis}
@@ -100,24 +97,82 @@ const renderMfmNode = (
           />
         </Link>
       )
-    case 'blockCode':
-    case 'bold':
     case 'center':
+      return (
+        <MfmCenter>
+          <MfmInlineRenderer
+            textColor={textColor}
+            emojis={emojis}
+            fontSize={fontSize}
+            nodes={node.children}
+            additionalStyles={{ textAlign: 'center' }}
+          />
+        </MfmCenter>
+      )
+    case 'small':
+      return (
+        <MfmInlineRenderer
+          textColor={textColor}
+          emojis={emojis}
+          fontSize={fontSize}
+          nodes={node.children}
+          additionalStyles={{
+            fontSize: 12,
+          }}
+        />
+      )
+    case 'bold':
+      return (
+        <MfmInlineRenderer
+          additionalStyles={[
+            additionalStyles,
+            {
+              fontWeight: 'bold',
+            },
+          ]}
+          textColor={textColor}
+          fontSize={fontSize}
+          nodes={node.children}
+          emojis={emojis}
+        />
+      )
+    case 'italic':
+      return (
+        <MfmInlineRenderer
+          textColor={textColor}
+          emojis={emojis}
+          fontSize={fontSize}
+          nodes={node.children}
+          additionalStyles={{
+            fontStyle: 'italic',
+          }}
+        />
+      )
+    case 'strike':
+      return (
+        <MfmInlineRenderer
+          textColor={textColor}
+          emojis={emojis}
+          fontSize={fontSize}
+          nodes={node.children}
+          additionalStyles={{
+            textDecorationLine: 'line-through',
+          }}
+        />
+      )
+    case 'blockCode':
     case 'fn':
     case 'mathInline':
     case 'mathBlock':
     case 'inlineCode':
     case 'hashtag':
-    case 'italic':
     case 'mention':
     case 'plain':
     case 'quote':
     case 'search':
-    case 'small':
-    case 'strike':
     default:
       return (
-        <MfmSimpleText size={fontSize} key={index} color={textColor}>
+        <MfmSimpleText size={fontSize} color={textColor}>
           {node.type}
         </MfmSimpleText>
       )
@@ -130,17 +185,23 @@ const renderMfmInlineNode = (
   fontSize: number,
   emojis: Note['emojis'],
   textColor: ThemeColor,
+  additionalStyles?: StyleProp<any>,
 ): React.ReactNode => {
   switch (node.type) {
     case 'text':
       return (
-        <MfmSimpleText size={fontSize} key={index} color={textColor}>
+        <MfmSimpleText
+          size={fontSize}
+          key={index}
+          color={textColor}
+          style={additionalStyles}>
           {node.props.text}
         </MfmSimpleText>
       )
     case 'plain':
       return (
         <MfmSimpleRenderer
+          additionalStyles={additionalStyles}
           textColor={textColor}
           fontSize={fontSize}
           nodes={node.children}
@@ -148,10 +209,47 @@ const renderMfmInlineNode = (
           emojis={emojis}
         />
       )
-    case 'strike':
+    case 'bold':
+      return (
+        <MfmInlineRenderer
+          additionalStyles={[
+            additionalStyles,
+            {
+              fontWeight: 'bold',
+            },
+          ]}
+          textColor={textColor}
+          fontSize={fontSize}
+          nodes={node.children}
+          key={index}
+          emojis={emojis}
+        />
+      )
     case 'small':
-    case 'mention':
+      return (
+        <MfmInlineRenderer
+          key={index}
+          textColor={textColor}
+          emojis={emojis}
+          fontSize={fontSize}
+          nodes={node.children}
+        />
+      )
     case 'italic':
+      return (
+        <MfmInlineRenderer
+          key={index}
+          textColor={textColor}
+          emojis={emojis}
+          fontSize={fontSize}
+          nodes={node.children}
+          additionalStyles={{
+            fontStyle: 'italic',
+          }}
+        />
+      )
+    case 'strike':
+    case 'mention':
     case 'inlineCode':
     case 'link':
     case 'mathInline':
@@ -160,7 +258,6 @@ const renderMfmInlineNode = (
     case 'emojiCode':
     case 'unicodeEmoji':
     case 'url':
-    case 'bold':
     default:
       return (
         <MfmSimpleText size={fontSize} key={index} color={textColor}>
@@ -175,12 +272,20 @@ const MfmInlineRenderer: React.FC<{
   emojis: Note['emojis']
   fontSize: number
   textColor: ThemeColor
-}> = ({ nodes, textColor, fontSize, emojis }) => {
+  additionalStyles?: StyleProp<any>
+}> = ({ nodes, textColor, fontSize, emojis, additionalStyles }) => {
   const result = React.useMemo(() => {
     return nodes.map((x, i) => {
-      return renderMfmInlineNode(x, i, fontSize, emojis, textColor)
+      return renderMfmInlineNode(
+        x,
+        i,
+        fontSize,
+        emojis,
+        textColor,
+        additionalStyles,
+      )
     })
-  }, [nodes, fontSize, emojis, textColor])
+  }, [nodes, fontSize, emojis, textColor, additionalStyles])
 
   return <>{result}</>
 }
@@ -210,12 +315,43 @@ export const MfmRendererNative: React.FC<{
   emojis: Note['emojis']
   fontSize: number
   textColor: ThemeColor
-}> = ({ nodes, emojis, fontSize, textColor }) => {
+  additionalStyles?: StyleProp<any>
+}> = ({ nodes, emojis, fontSize, textColor, additionalStyles }) => {
   const result = React.useMemo(() => {
-    return nodes.map((x, i) => {
-      return renderMfmNode(x, i, fontSize, emojis, textColor)
-    })
-  }, [nodes, fontSize, emojis, textColor])
+    const elements: React.ReactNode[] = []
 
-  return <>{result}</>
+    let current: React.ReactNode[] = []
+
+    nodes.forEach((x, i) => {
+      const rendered = renderMfmNode(
+        x,
+        fontSize,
+        emojis,
+        textColor,
+        additionalStyles,
+      )
+
+      if (x.type === 'center') {
+        if (current.length) {
+          elements.push(<Text key={elements.length}>{current}</Text>)
+        }
+
+        elements.push(
+          <React.Fragment key={elements.length}>{rendered}</React.Fragment>,
+        )
+
+        current = []
+
+        return
+      }
+
+      current.push(<React.Fragment key={i}>{rendered}</React.Fragment>)
+    })
+
+    elements.push(<Text key={elements.length}>{current}</Text>)
+
+    return elements
+  }, [nodes, fontSize, emojis, textColor, additionalStyles])
+
+  return <View>{result}</View>
 }
