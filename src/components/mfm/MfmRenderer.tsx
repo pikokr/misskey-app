@@ -65,7 +65,10 @@ const renderMfmNode = (
   switch (node.type) {
     case 'text':
       return (
-        <MfmSimpleText size={fontSize} color={textColor}>
+        <MfmSimpleText
+          size={fontSize}
+          color={textColor}
+          style={additionalStyles}>
           {node.props.text}
         </MfmSimpleText>
       )
@@ -82,13 +85,16 @@ const renderMfmNode = (
     case 'url':
       return (
         <Link href={node.props.url} size={fontSize}>
-          <LinkText size={fontSize}>{node.props.url}</LinkText>
+          <LinkText size={fontSize} style={additionalStyles}>
+            {node.props.url}
+          </LinkText>
         </Link>
       )
     case 'link':
       return (
         <Link href={node.props.url} size={fontSize}>
           <MfmInlineRenderer
+            additionalStyles={additionalStyles}
             textColor="link"
             emojis={emojis}
             fontSize={fontSize}
@@ -104,7 +110,7 @@ const renderMfmNode = (
             emojis={emojis}
             fontSize={fontSize}
             nodes={node.children}
-            additionalStyles={{ textAlign: 'center' }}
+            additionalStyles={{ ...additionalStyles, textAlign: 'center' }}
           />
         </View>
       )
@@ -116,6 +122,7 @@ const renderMfmNode = (
           fontSize={fontSize}
           nodes={node.children}
           additionalStyles={{
+            ...additionalStyles,
             fontSize: 12,
           }}
         />
@@ -143,6 +150,7 @@ const renderMfmNode = (
           fontSize={fontSize}
           nodes={node.children}
           additionalStyles={{
+            ...additionalStyles,
             fontStyle: 'italic',
           }}
         />
@@ -155,6 +163,7 @@ const renderMfmNode = (
           fontSize={fontSize}
           nodes={node.children}
           additionalStyles={{
+            ...additionalStyles,
             textDecorationLine: 'line-through',
           }}
         />
@@ -294,13 +303,21 @@ export const MfmRenderer: React.FC<{
   emojis: Note['emojis']
   fontSize?: number
   textColor?: ThemeColor
-}> = ({ content, emojis, textColor = 'fg', fontSize = 16 }) => {
+  additionalStyles?: StyleProp<any>
+}> = ({
+  content,
+  additionalStyles,
+  emojis,
+  textColor = 'fg',
+  fontSize = 16,
+}) => {
   const result = React.useMemo(() => {
     return parse(content)
   }, [content])
 
   return (
     <MfmRendererNative
+      additionalStyles={additionalStyles}
       emojis={emojis}
       nodes={result}
       fontSize={fontSize}
@@ -332,7 +349,11 @@ export const MfmRendererNative: React.FC<{
 
       if (x.type === 'center') {
         if (current.length) {
-          elements.push(<Text key={elements.length}>{current}</Text>)
+          elements.push(
+            <Text key={elements.length} style={additionalStyles}>
+              {current}
+            </Text>,
+          )
         }
 
         elements.push(
@@ -347,7 +368,11 @@ export const MfmRendererNative: React.FC<{
       current.push(<React.Fragment key={i}>{rendered}</React.Fragment>)
     })
 
-    elements.push(<Text key={elements.length}>{current}</Text>)
+    elements.push(
+      <Text key={elements.length} style={additionalStyles}>
+        {current}
+      </Text>,
+    )
 
     return elements
   }, [nodes, fontSize, emojis, textColor, additionalStyles])

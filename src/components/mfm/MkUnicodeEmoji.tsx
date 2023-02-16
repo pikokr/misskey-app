@@ -1,5 +1,5 @@
 import React from 'react'
-import { parse } from 'twemoji-parser'
+import { toCodePoints } from 'twemoji-parser'
 import { SvgUri } from 'react-native-svg'
 import styled from 'styled-components/native'
 
@@ -30,13 +30,23 @@ export const MkUnicodeEmoji: React.FC<{ code: string; size: number }> = ({
   code,
   size,
 }) => {
-  const url = React.useMemo(() => parse(code)[0].url, [code])
+  const url = React.useMemo(
+    () =>
+      `https://raw.githubusercontent.com/twitter/twemoji/master/assets/svg/${toCodePoints(
+        code,
+      ).join('-')}.svg`,
+    [code],
+  )
 
   const [isErrored, setIsErrored] = React.useState(false)
 
   return (
     <Container size={size}>
       {isErrored ? (
+        <FallbackContainer size={size}>
+          <FallbackContent size={size}>{code}</FallbackContent>
+        </FallbackContainer>
+      ) : (
         <Content
           uri={url}
           size={size}
@@ -44,10 +54,6 @@ export const MkUnicodeEmoji: React.FC<{ code: string; size: number }> = ({
           height={size}
           onError={() => setIsErrored(true)}
         />
-      ) : (
-        <FallbackContainer size={size}>
-          <FallbackContent size={size}>{code}</FallbackContent>
-        </FallbackContainer>
       )}
     </Container>
   )

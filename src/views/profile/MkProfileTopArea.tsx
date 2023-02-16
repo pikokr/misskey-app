@@ -66,19 +66,12 @@ const Components = {
     flex-direction: row;
     margin-top: ${({ index }) => (index === 0 ? 0 : 4)}px;
   `,
-  FieldListItemName: styled.Text`
+  FieldListItemName: styled.View`
     width: 25%;
-    text-align: center;
-    color: ${({ theme }) => theme.fg};
-
-    font-weight: bold;
-    font-size: 16px;
   `,
-  FieldListItemValue: styled.Text`
+  FieldListItemValue: styled.View`
     flex-grow: 1;
     width: 0;
-    color: ${({ theme }) => theme.fg};
-    font-size: 16px;
   `,
 }
 
@@ -123,10 +116,24 @@ export const MkProfileTopArea: React.FC<{ user: User }> = ({ user }) => {
           {user.fields.map((x, i) => (
             <Components.FieldListItem index={i} key={i}>
               <Components.FieldListItemName>
-                {x.name}
+                <MfmRenderer
+                  additionalStyles={{
+                    fontWeight: 'bold',
+                    fontSize: 16,
+                    textAlign: 'center',
+                  }}
+                  content={x.name}
+                  emojis={user.emojis}
+                />
               </Components.FieldListItemName>
               <Components.FieldListItemValue>
-                {x.value}
+                <MfmRenderer
+                  additionalStyles={{
+                    fontSize: 16,
+                  }}
+                  content={x.value}
+                  emojis={user.emojis}
+                />
               </Components.FieldListItemValue>
             </Components.FieldListItem>
           ))}
