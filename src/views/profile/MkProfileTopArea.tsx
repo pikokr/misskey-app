@@ -2,10 +2,9 @@ import React from 'react'
 import styled from 'styled-components/native'
 import { User } from '../../types/user'
 import FastImage from 'react-native-fast-image'
-import { MkUserName } from '../../components/mfm/MkUserName'
 import { MfmSimpleRenderer } from '../../components/mfm/MfmSimpleRenderer'
 import { parseSimple } from 'mfm-js'
-import { Text } from 'react-native'
+import { MfmRenderer } from '../../components/mfm/MfmRenderer'
 
 const Components = {
   Container: styled.View``,
@@ -55,7 +54,7 @@ const Components = {
     font-weight: bold;
     color: ${({ theme }) => theme.fg};
   `,
-  Description: styled.Text`
+  Description: styled.View`
     color: ${({ theme }) => theme.fg};
 
     margin-top: 12px;
@@ -113,7 +112,9 @@ export const MkProfileTopArea: React.FC<{ user: User }> = ({ user }) => {
               nodes={mfmUsernameContent}
             />
           </Components.ProfileNameText>
-          <Components.Description>{user.description}</Components.Description>
+          <Components.Description>
+            <MfmRenderer content={user.description} emojis={user.emojis} />
+          </Components.Description>
         </Components.Section>
       </Components.UserNameArea>
 
